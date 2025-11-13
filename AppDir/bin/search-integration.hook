@@ -2,6 +2,8 @@
 
 set -e
 
+# Integrate app's search provider into Gnome Shell
+
 # Input the values here
 DBUS_SERVICE_NAME=com.github.finefindus.eyedropper.SearchProvider.service
 SEARCH_PROVIDER_NAME=com.github.finefindus.eyedropper.search-provider.ini
