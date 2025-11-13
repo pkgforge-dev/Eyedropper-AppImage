@@ -42,7 +42,7 @@ More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/
 - Search-provider integration works only on Gnome (same as upstream) & it depends on:
   - the desktop file being present (which AppImage managers like `soar` & `am` already take care of).  
     Desktop file needs to be named `com.github.finefindus.eyedropper.desktop` for it to work.  
-    The only exception is the detection for desktop file `authenticator-AM.desktop` in local directories, which is added as a support for `am` AppImage manager.
+    The only exception is the detection for desktop file `eyedropper-AM.desktop` in local directories, which is added as a support for `am` AppImage manager.
   - the `XDG_DATA_DIRS` variable having the `XDG_DATA_HOME` in path, which the AppImage will detect if not present + warn about & suggest the solution.
   - This operation won't be performed if search integration files already exist in `/usr/share/` or `/usr/local/share/`, as it's assumed that the packager and/or system-administrator already handled that integration to the system. Modifying `XDG_DATA_DIRS` in that case is not needed.
   - If you use the AppImage portable folders feature, you only need to use portable `appimage-filename.config` and `appimage-filename.cache` folder to make the search-provider functionality work.
