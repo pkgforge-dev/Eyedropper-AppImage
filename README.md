@@ -38,7 +38,7 @@ More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/
 ## Known quirks
 
 - Picking colors only works if the screenshot freedesktop portal is installed on the host (same as upstream).
-- Global keyboard shortcut doesn't work (at least in Gnome, KDE is not tested)
+- Global keyboard shortcut also depends on freedesktop portal and it doesn't work (at least in Gnome, KDE is not tested)
 - Search-provider integration works only on Gnome (same as upstream) & it depends on:
   - the desktop file being present (which AppImage managers like `soar` & `am` already take care of).  
     Desktop file needs to be named `com.github.finefindus.eyedropper.desktop` for it to work.  
