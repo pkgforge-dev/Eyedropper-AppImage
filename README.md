@@ -1,0 +1,2 @@
+# Eyedropper-AppImage
+WIP
