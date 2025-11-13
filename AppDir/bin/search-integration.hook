@@ -1,0 +1,69 @@
+#!/bin/sh
+
+set -e
+
+# Integrate search-provider into Gnome Shell
+if [ -n "$APPIMAGE" ] && command -v gnome-shell 1>/dev/null && \
+[ ! -f /usr/share/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service ] && [ ! -f /usr/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini ] && \
+[ ! -f /usr/local/share/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service ] && [ ! -f /usr/local/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini ]; then
+
+  SHAREDIR="${XDG_DATA_HOME:-$HOME/.local/share}"
+  DBUS_SERVICE="${SHAREDIR}"/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service
+  SEARCHP_INI="${SHAREDIR}"/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini
+  ANYLINUX_APPIMAGES_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/anylinux-appimages"
+  ASK_STATE_MESSAGE_FILE="${ANYLINUX_APPIMAGES_CONFIG}/eyedropper-xdgdatadirs-message"
+  XDGDATADIRS_MESSAGE='In order for "eyedropper" AppImage to have search-integration working with "gnome-shell", please add the XDG_DATA_HOME variable to XDG_DATA_DIRS, which can be done in shell profile, like this:
+
+case "$XDG_DATA_DIRS" in
+  *"${XDG_DATA_HOME:-$HOME/.local/share}:"*);;
+  *) export XDG_DATA_DIRS="${XDG_DATA_HOME:-$HOME/.local/share}:${XDG_DATA_DIRS}";;
+esac
+
+Then restart the system for changes to apply.
+
+To not get asked again about this change, click "No".'
+
+  _display_message() {
+	  if command -v kdialog 1>/dev/null; then
+	    kdialog --yesno "$XDGDATADIRS_MESSAGE" 2>/dev/null || return 1
+	  elif command -v zenity 1>/dev/null; then
+	    zenity --question --text "$XDGDATADIRS_MESSAGE" 2>/dev/null || return 1
+	  elif command -v yad 1>/dev/null; then
+	    yad --text="$XDGDATADIRS_MESSAGE" 2>/dev/null || return 1
+	  fi
+  }
+
+  case "$XDG_DATA_DIRS" in
+      *"${SHAREDIR}:"*) xdg_data_dirs_satisfied=true;;
+  esac
+
+  if ! ${xdg_data_dirs_satisfied:-false}; then
+    echo "$XDGDATADIRS_MESSAGE"
+    if [ -f "$ASK_STATE_MESSAGE_FILE" ]; then
+      read -r STATE < "$ASK_STATE_MESSAGE_FILE"
+      if $STATE; then
+        _display_message
+      fi
+    else
+      if ! _display_message; then
+        mkdir -p "$ANYLINUX_APPIMAGES_CONFIG"
+        echo "false" > "$ASK_STATE_MESSAGE_FILE"
+      fi
+    fi
+  fi
+
+  mkdir -p "${SHAREDIR}"/dbus-1/services/
+  mkdir -p "${SHAREDIR}"/gnome-shell/search-providers/
+  echo '[D-BUS Service]' > "$DBUS_SERVICE"
+  echo 'Name=com.github.finefindus.eyedropper.SearchProvider' >> "$DBUS_SERVICE"
+  echo "Exec=$APPIMAGE --gapplication-service" >> "$DBUS_SERVICE"
+  if [ ! -f "$SEARCHP_INI" ]; then
+    cp "${CURRENTDIR}"/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini "$SEARCHP_INI"
+  fi
+  ## Fix filename for AM/appman desktop file in search provider config
+  if command -v sed 1>/dev/null; then
+    if [ -f /usr/local/share/applications/eyedropper-AM.desktop ] || [ -f "${SHAREDIR}/applications/eyedropper-AM.desktop" ]; then
+      sed -i 's/^DesktopId=.*/DesktopId=eyedropper-AM.desktop/' "$SEARCHP_INI"
+    fi
+  fi
+fi
