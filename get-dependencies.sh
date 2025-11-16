@@ -1,32 +1,13 @@
 #!/bin/sh
 
-set -eux
+set -eu
 
-ARCH="$(uname -m)"
-DEBLOATED_PKGS_INSTALLER="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/get-debloated-pkgs.sh"
+ARCH=$(uname -m)
 
-echo "Installing build dependencies for sharun & AppImage integration..."
+echo "Installing package and its dependencies..."
 echo "---------------------------------------------------------------"
-pacman -Syu --noconfirm \
-	base-devel \
-	curl \
-	desktop-file-utils \
-	git \
-	libxtst \
-	wget \
-	xorg-server-xvfb \
-	zsync
-echo "Installing the app & it's dependencies..."
-echo "---------------------------------------------------------------"
-pacman -Syu --noconfirm \
-	eyedropper
+pacman -Syu --noconfirm eyedropper
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
-wget --retry-connrefused --tries=30 "$DEBLOATED_PKGS_INSTALLER" -O ./get-debloated-pkgs.sh
-chmod +x ./get-debloated-pkgs.sh
-./get-debloated-pkgs.sh libxml2-mini mesa-nano gtk4-mini gdk-pixbuf2-mini librsvg-mini opus-mini
-
-echo "Extracting the app version into a version file"
-echo "---------------------------------------------------------------"
-pacman -Q eyedropper | awk '{print $2; exit}' > ~/version
+get-debloated-pkgs --add-common --prefer-nano
