@@ -18,9 +18,9 @@ quick-sharun /usr/bin/eyedropper
 
 ## Copy files needed for search integration
 mkdir -p ./AppDir/share/gnome-shell/search-providers/
-cp -v /usr/share/gnome-shell/search-providers/org.gnome.Calculator-search-provider.ini ./AppDir/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini
+cp -v /usr/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini ./AppDir/share/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini
 mkdir -p ./AppDir/share/dbus-1/services/
-cp -v /usr/share/dbus-1/services/org.gnome.Calculator.SearchProvider.service ./AppDir/share/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service
+cp -v /usr/share/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service ./AppDir/share/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
