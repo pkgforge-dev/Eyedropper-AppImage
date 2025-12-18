@@ -11,7 +11,8 @@ export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}
 export ICON=/usr/share/icons/hicolor/scalable/apps/com.github.finefindus.eyedropper.svg
 export DESKTOP=/usr/share/applications/com.github.finefindus.eyedropper.desktop
 export DEPLOY_OPENGL=1
-export STARTUPWMCLASS=eyedropper # For Wayland, this is 'com.github.finefindus.eyedropper', so this needs to be changed in desktop file manually by the user in that case until some potential automatic fix exists for this
+export STARTUPWMCLASS=eyedropper
+export GTK_CLASS_FIX=1
 
 # Trace and deploy all files and directories needed for the application (including binaries, libraries and others)
 quick-sharun /usr/bin/eyedropper
