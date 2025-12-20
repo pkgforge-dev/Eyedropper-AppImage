@@ -11,6 +11,7 @@ export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}
 export ICON=/usr/share/icons/hicolor/scalable/apps/com.github.finefindus.eyedropper.svg
 export DESKTOP=/usr/share/applications/com.github.finefindus.eyedropper.desktop
 export DEPLOY_OPENGL=1
+export STARTUPWMCLASS=com.github.finefindus.eyedropper # Default to Wayland's wmclass. For X11, GTK_CLASS_FIX will force the wmclass to be the Wayland one.
 export GTK_CLASS_FIX=1
 
 # Trace and deploy all files and directories needed for the application (including binaries, libraries and others)
