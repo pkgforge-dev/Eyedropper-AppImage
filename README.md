@@ -27,6 +27,21 @@ Self-updater doesn't run if AppImage managers like [am](https://github.com/ivan-
   </a>
 </details>
 
+More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/)
+
 ---
 
-More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/)
+## Known quirks
+
+- Picking colors only works if the screenshot freedesktop portal is installed on the host (same as upstream).
+- Global keyboard shortcut also depends on freedesktop portal and it doesn't work (at least on Gnome, KDE and other DEs are not tested)
+- Search-provider integration works only on Gnome (same as upstream) & it depends on:
+  - the desktop file being present (which AppImage managers like `soar` & `am` already take care of).  
+    Desktop file needs to be named `com.github.finefindus.eyedropper.desktop` for it to work.  
+    The only exception is the detection for desktop file `eyedropper-AM.desktop` in local directories, which is added as a support for `am` AppImage manager.
+  - the `XDG_DATA_DIRS` variable having the `XDG_DATA_HOME` in path, which the AppImage will detect if not present + warn about & suggest the solution.
+  - This operation won't be performed if search integration files already exist in `/usr/share/` or `/usr/local/share/`, as it's assumed that the packager and/or system-administrator already handled that integration to the system. Modifying `XDG_DATA_DIRS` in that case is not needed.
+  - If you use the AppImage portable folders feature, those 2 files are made in host's `${HOME}`, which you can delete on app removal:
+    - `${XDG_DATA_HOME}/gnome-shell/search-providers/com.github.finefindus.eyedropper.search-provider.ini`
+    - `${XDG_DATA_HOME}/dbus-1/services/com.github.finefindus.eyedropper.SearchProvider.service`
+  - When you click the color code entry to copy the code, it will copy it, but the notification about it won't show
