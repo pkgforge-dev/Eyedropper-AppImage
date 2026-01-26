@@ -1,3 +1,5 @@
+<div align="center">
+
 # Eyedropper AppImage 🐧
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/pkgforge-dev/Eyedropper-AppImage/total?logo=github&label=GitHub%20Downloads)](https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/latest)
@@ -8,7 +10,11 @@
   <img src="https://raw.githubusercontent.com/FineFindus/eyedropper/refs/heads/main/data/icons/com.github.finefindus.eyedropper.svg" width="128" />
 </p>
 
-* [Upstream URL](https://github.com/FineFindus/eyedropper)
+| Latest Stable Release | Upstream URL |
+| :---: | :---: |
+| [Click here](https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/latest) | [Click here](https://github.com/FineFindus/eyedropper) |
+
+</div>
 
 ---
 
